@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="popularity">popularity</string>
+    <string name="votes">votes</string>
+    <string name="menu_popularity">Sort by popularity</string>
+    <string name="menu_votes">Sort by Votes</string>
+</resources>
