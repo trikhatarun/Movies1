@@ -1,5 +1,7 @@
 package com.android.movies;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ public class MovieJsonUtil {
 
             //getting poster link
             String imagePostUrl = movieJson.getString("poster_path");
-            String imageUrl = imagePrefixUrl + imagePostUrl.substring(2);
+            String imageUrl = imagePrefixUrl + imagePostUrl.substring(0);
 
             //getting movie title
             String title = movieJson.getString("original_title");
@@ -39,6 +41,9 @@ public class MovieJsonUtil {
             String releaseDate = movieJson.getString("release_date");
 
             data.add(new Movie(imageUrl, rating, title, synopsis, releaseDate));
+        }
+        for (int j = 0; j < data.size(); j++) {
+            Log.v("" + j + ". ", data.get(j).getmName());
         }
 
         return data;
