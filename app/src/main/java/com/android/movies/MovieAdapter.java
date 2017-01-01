@@ -16,14 +16,14 @@ import java.util.ArrayList;
  * Created by trikh on 31-12-2016.
  */
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
+class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
 
     private ArrayList<com.android.movies.Movie> MovieList;
     private ImageView thumbnail;
     private TextView name;
     private Context mContext;
 
-    public MovieAdapter(Context context) {
+    MovieAdapter(Context context) {
         mContext = context;
     }
 
@@ -41,15 +41,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
 
     @Override
     public int getItemCount() {
+        if (MovieList == null)
+            return 0;
         return MovieList.size();
     }
 
-    public void setMovieList(ArrayList<com.android.movies.Movie> movieList) {
+    void setMovieList(ArrayList<com.android.movies.Movie> movieList) {
         MovieList = movieList;
+        notifyDataSetChanged();
     }
 
-    public class Movie extends RecyclerView.ViewHolder {
-        public Movie(View itemView) {
+    class Movie extends RecyclerView.ViewHolder {
+        Movie(View itemView) {
             super(itemView);
             thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             name = (TextView) itemView.findViewById(R.id.movie_name);

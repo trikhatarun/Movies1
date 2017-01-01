@@ -17,7 +17,7 @@ public class MovieJsonUtil {
         ArrayList<Movie> data = new ArrayList<>();
 
         JSONObject jsonResponse = new JSONObject(response);
-        JSONArray result = jsonResponse.getJSONArray("result");
+        JSONArray result = jsonResponse.getJSONArray("results");
 
         for (int i = 0; i < result.length(); i++) {
             JSONObject movieJson = result.getJSONObject(i);

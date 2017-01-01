@@ -14,7 +14,7 @@ import java.util.Scanner;
  * Created by trikh on 28-12-2016.
  */
 
-public class NetworkUtils {
+class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
@@ -25,21 +25,22 @@ public class NetworkUtils {
     private static final String PAGE_PARAM = "page";
     private static final String VOTE_COUNT = "vote_count.gte";
 
-    final static String key = "97f469b9e89b30f1f7d07e8b35973e56";
-    final static Boolean video = false;
-    final static int page = 1;
-    final static int vote = 500;
+    private final static String key = "97f469b9e89b30f1f7d07e8b35973e56";
+    private final static Boolean video = false;
+    private final static int page = 1;
+    private final static int vote = 500;
 
-    public static URL buildUrl(String sortBy){
+    static URL buildUrl(String sortBy) {
         Uri.Builder tempUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM,key)
                 .appendQueryParameter(VIDEO_PARAM,video.toString())
                 .appendQueryParameter(PAGE_PARAM,String.valueOf(page))
                 .appendQueryParameter(VOTE_COUNT,String.valueOf(vote));
 
-        Uri builtUri = null;
+        Uri builtUri;
         URL url = null;
-        if (sortBy == "votes"){
+        Log.v(TAG, sortBy);
+        if (sortBy.equals("votes")) {
             builtUri = tempUri.appendQueryParameter(SORT_BY_PARAM,"vote_average.desc").build();
         }
         else
@@ -56,7 +57,7 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String getResponseFromUrl(URL url) throws IOException {
+    static String getResponseFromUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream inputStream = urlConnection.getInputStream();

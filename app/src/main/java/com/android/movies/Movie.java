@@ -4,7 +4,7 @@ package com.android.movies;
  * Created by trikh on 30-12-2016.
  */
 
-public class Movie {
+class Movie {
     private String mImageUrl;
     private String mRating;
     private String mName;
@@ -19,7 +19,7 @@ public class Movie {
         this.mReleaseDate = releaseDate;
     }
 
-    public String getmImageUrl() {
+    String getmImageUrl() {
         return mImageUrl;
     }
 

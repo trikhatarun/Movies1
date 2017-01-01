@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private Boolean sort_popularity,sort_votes;
     private MenuItem popularityButton, votesButton;
     private MovieAdapter mMovieAdapter;
-    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         sort_popularity = preferences.getBoolean(getString(R.string.popularity),true);
         sort_votes = preferences.getBoolean(getString(R.string.votes),false);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_home_screen);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_home_screen);
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -62,23 +62,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         if (item.getItemId() == R.id.popularity_button){
             Toast.makeText(this, "clicked pop", Toast.LENGTH_SHORT).show();
-            if (sort_popularity == false){
+            if (!sort_popularity) {
                 popularityButton.setChecked(true);
                 votesButton.setChecked(false);
                 editor.putBoolean(getString(R.string.popularity),true);
                 editor.putBoolean(getString(R.string.votes),false);
-                editor.commit();
+                editor.apply();
                 restartActivity();
             }
         }
         else {
             Toast.makeText(this, "clicked vot", Toast.LENGTH_SHORT).show();
-            if (sort_votes == false){
+            if (!sort_votes) {
                 popularityButton.setChecked(false);
                 votesButton.setChecked(true);
                 editor.putBoolean(getString(R.string.popularity),false);
                 editor.putBoolean(getString(R.string.votes),true);
-                editor.commit();
+                editor.apply();
                 restartActivity();
             }
         }
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 }
             } else
                 try {
+                    Log.v("doInBackground: ", "called votes");
                     return MovieJsonUtil.fetchJsonFromResponse(NetworkUtils.getResponseFromUrl(NetworkUtils.buildUrl(getString(R.string.votes))));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         protected void onPostExecute(ArrayList<Movie> list) {
             if (list != null) {
                 mMovieAdapter.setMovieList(list);
-            }
+            } else
+                Log.e("Data: ", "No data available");
         }
     }
 }
