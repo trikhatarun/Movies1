@@ -9,12 +9,14 @@ public class Movie {
     private String mRating;
     private String mName;
     private String mSynopsis;
+    private String mReleaseDate;
 
-    Movie(String imageUrl, String rating, String name, String synopsis){
+    Movie(String imageUrl, String rating, String name, String synopsis, String releaseDate) {
         this.mImageUrl = imageUrl;
         this.mRating = rating;
         this.mName = name;
         this.mSynopsis = synopsis;
+        this.mReleaseDate = releaseDate;
     }
 
     public String getmImageUrl() {
@@ -31,5 +33,9 @@ public class Movie {
 
     public String getmSynopsis() {
         return mSynopsis;
+    }
+
+    public String getmReleaseDate() {
+        return mReleaseDate;
     }
 }
