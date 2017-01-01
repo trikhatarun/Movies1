@@ -38,9 +38,7 @@ public class MovieJsonUtil {
             //getting release date
             String releaseDate = movieJson.getString("release_date");
 
-            Movie movie = new Movie(imageUrl, rating, title, synopsis, releaseDate);
-
-            data.add(movie);
+            data.add(new Movie(imageUrl, rating, title, synopsis, releaseDate));
         }
 
         return data;
