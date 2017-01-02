@@ -4,4 +4,5 @@
     <string name="votes">votes</string>
     <string name="menu_popularity">Sort by popularity</string>
     <string name="menu_votes">Sort by Votes</string>
+    <string name="title_activity_detail_screen">DetailScreen</string>
 </resources>

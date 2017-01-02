@@ -19,7 +19,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, MovieAdapter.OnMovieClickListener {
 
     private Boolean sort_popularity,sort_votes;
     private MenuItem popularityButton, votesButton;
@@ -29,17 +29,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sort_popularity = preferences.getBoolean(getString(R.string.popularity),true);
-        sort_votes = preferences.getBoolean(getString(R.string.votes),false);
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rv_home_screen);
         mRecyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        mMovieAdapter = new MovieAdapter(this);
+        mMovieAdapter = new MovieAdapter(this, this);
         mRecyclerView.setAdapter(mMovieAdapter);
+        loadData();
+    }
+
+    public void loadData() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sort_popularity = preferences.getBoolean(getString(R.string.popularity), true);
+        sort_votes = preferences.getBoolean(getString(R.string.votes), false);
+
         new FetchMoviesTask().execute();
+
     }
 
     @Override
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 editor.putBoolean(getString(R.string.popularity),true);
                 editor.putBoolean(getString(R.string.votes),false);
                 editor.apply();
-                restartActivity();
+                loadData();
             }
         }
         else {
@@ -79,20 +85,21 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 editor.putBoolean(getString(R.string.popularity),false);
                 editor.putBoolean(getString(R.string.votes),true);
                 editor.apply();
-                restartActivity();
+                loadData();
             }
         }
         return true;
     }
 
-    void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onClick(Movie currentMovie) {
+        Intent details = new Intent(this, DetailScreen.class);
+        details.putExtra("currentMovie", currentMovie);
+        startActivity(details);
     }
 
     public class FetchMoviesTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
@@ -126,8 +133,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         protected void onPostExecute(ArrayList<Movie> list) {
             if (list != null) {
                 mMovieAdapter.setMovieList(list);
-            } else
+            } else {
+                mMovieAdapter.setMovieList(null);
                 Log.e("Data: ", "No data available");
+            }
         }
     }
 }

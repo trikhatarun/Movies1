@@ -18,13 +18,13 @@ import java.util.ArrayList;
 
 class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
 
+    private final OnMovieClickListener clickListener;
     private ArrayList<com.android.movies.Movie> MovieList;
-    private ImageView thumbnail;
-    private TextView name;
     private Context mContext;
 
-    MovieAdapter(Context context) {
+    MovieAdapter(Context context, OnMovieClickListener listener) {
         mContext = context;
+        clickListener = listener;
     }
 
     @Override
@@ -35,8 +35,8 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
 
     @Override
     public void onBindViewHolder(Movie holder, int position) {
-        name.setText(MovieList.get(position).getmName());
-        Picasso.with(mContext).load(MovieList.get(position).getmImageUrl()).into(thumbnail);
+        holder.name.setText(MovieList.get(position).getmName());
+        Picasso.with(mContext).load(MovieList.get(position).getmImageUrl()).into(holder.thumbnail);
     }
 
     @Override
@@ -47,15 +47,28 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Movie> {
     }
 
     void setMovieList(ArrayList<com.android.movies.Movie> movieList) {
+        MovieList = null;
         MovieList = movieList;
         notifyDataSetChanged();
     }
 
-    class Movie extends RecyclerView.ViewHolder {
+    public interface OnMovieClickListener {
+        void onClick(com.android.movies.Movie currentMovie);
+    }
+
+    public class Movie extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public ImageView thumbnail;
+        public TextView name;
         Movie(View itemView) {
             super(itemView);
             thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             name = (TextView) itemView.findViewById(R.id.movie_name);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            clickListener.onClick(MovieList.get(getAdapterPosition()));
         }
     }
 }
