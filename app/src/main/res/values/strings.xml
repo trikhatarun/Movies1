@@ -5,4 +5,8 @@
     <string name="menu_popularity">Sort by popularity</string>
     <string name="menu_votes">Sort by Votes</string>
     <string name="title_activity_detail_screen">DetailScreen</string>
+    <string name="synopsis_heading">Synopsis</string>
+    <string name="release_date_heading">Release Date: </string>
+    <string name="rating_heading">Rating: </string>
+    <string name="rating_end">/10</string>
 </resources>
