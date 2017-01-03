@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences.Editor editor = preferences.edit();
 
         if (item.getItemId() == R.id.popularity_button){
-            Toast.makeText(this, "clicked pop", Toast.LENGTH_SHORT).show();
             if (!sort_popularity) {
                 popularityButton.setChecked(true);
                 votesButton.setChecked(false);
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         }
         else {
-            Toast.makeText(this, "clicked vot", Toast.LENGTH_SHORT).show();
             if (!sort_votes) {
                 popularityButton.setChecked(false);
                 votesButton.setChecked(true);

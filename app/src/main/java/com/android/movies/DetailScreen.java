@@ -14,6 +14,7 @@ public class DetailScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_screen);
         Bundle dataPack = getIntent().getExtras();
+
         Movie currentMovie = (Movie) dataPack.get("currentMovie");
 
         String title, synopsis, posterUrl, rating, releaseDate;
@@ -40,5 +41,4 @@ public class DetailScreen extends AppCompatActivity {
         releaseDate_tv.setText(releaseDate);
         rating_tv.setText(rating);
     }
-
 }
