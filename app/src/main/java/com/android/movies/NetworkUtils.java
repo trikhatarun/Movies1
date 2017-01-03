@@ -18,33 +18,33 @@ class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/movie";
     private static final String API_KEY_PARAM = "api_key";
-    private static final String SORT_BY_PARAM = "sort_by";
     private static final String VIDEO_PARAM = "include_video";
     private static final String PAGE_PARAM = "page";
-    private static final String VOTE_COUNT = "vote_count.gte";
+    private static final String VOTES_PATH = "top_rated";
+    private static final String POPULARITY_PATH = "popular";
+    private static final String LANGUAGE = "language";
 
     private final static String key = "97f469b9e89b30f1f7d07e8b35973e56";
     private final static Boolean video = false;
     private final static int page = 1;
-    private final static int vote = 500;
+    private final static String language = "en-US";
 
     static URL buildUrl(String sortBy) {
         Uri.Builder tempUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM,key)
                 .appendQueryParameter(VIDEO_PARAM,video.toString())
                 .appendQueryParameter(PAGE_PARAM,String.valueOf(page))
-                .appendQueryParameter(VOTE_COUNT,String.valueOf(vote));
+                .appendQueryParameter(LANGUAGE, language);
 
         Uri builtUri;
         URL url = null;
-        Log.v(TAG, sortBy);
         if (sortBy.equals("votes")) {
-            builtUri = tempUri.appendQueryParameter(SORT_BY_PARAM,"vote_average.desc").build();
+            builtUri = tempUri.appendPath(VOTES_PATH).build();
         }
         else
-            builtUri = tempUri.appendQueryParameter(SORT_BY_PARAM,"popularity.desc").build();
+            builtUri = tempUri.appendPath(POPULARITY_PATH).build();
 
         try {
             url = new URL(builtUri.toString());
