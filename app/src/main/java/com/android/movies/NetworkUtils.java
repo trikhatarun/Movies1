@@ -26,7 +26,7 @@ class NetworkUtils {
     private static final String POPULARITY_PATH = "popular";
     private static final String LANGUAGE = "language";
 
-    private final static String key = "97f469b9e89b30f1f7d07e8b35973e56";
+    private final static String key = "xxxxxxxxx";
     private final static Boolean video = false;
     private final static int page = 1;
     private final static String language = "en-US";
